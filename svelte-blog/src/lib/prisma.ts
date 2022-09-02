@@ -15,5 +15,13 @@ export function createCategories(categories: Array<Category>){
 
 // TODO: For testing, lock this up like before release
 export function nukeAll(){
-    prisma.category.deleteMany({})
+    return prisma.category.deleteMany({})
+}
+
+export function getCategoryById(id: number) {
+    return prisma.category.findUnique({ 
+        where: { 
+            id: id
+        },
+     })
 }

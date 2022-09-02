@@ -24,13 +24,10 @@ let chance = new Chance();
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-before(async () => {
+before(() => {
     // Wipe data
     // TODO: Make sure to do a check later for test database 
-    cy.request({
-        method: 'DELETE',
-        url: Cypress.env('deleteAllUrl')
-    })
+    cy.request('DELETE', Cypress.env('deleteAllUrl'))
 
     // Seed data
     cy.request({

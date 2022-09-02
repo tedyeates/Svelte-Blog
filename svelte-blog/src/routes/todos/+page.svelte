@@ -2,7 +2,7 @@
 	import { enhance } from '$lib/form';
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import type { PageData } from './$types';
+	import type { PageData } from '../../../.svelte-kit/types/src/routes/todos/$types';
 
 	export let data: PageData;
 </script>
