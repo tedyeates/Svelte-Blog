@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Home Page</title>
 	<meta name="description" content="Svelte Blog" />
 </svelte:head>
 
