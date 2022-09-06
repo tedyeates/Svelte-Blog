@@ -16,5 +16,29 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+import Chance from 'chance'
+
+// Instantiate Chance so it can be used
+let chance = new Chance();
+
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+before(() => {
+    // Wipe data
+    // TODO: Make sure to do a check later for test database 
+    cy.request('DELETE', Cypress.env('deleteAllUrl'))
+
+    // Seed data
+    cy.request({
+        method: 'POST',
+        url: Cypress.env('categoryCreateUrl'),
+        body: {
+            data: [
+                {name: "Software"},
+                {name: "Cyber"},
+                {name: "Backend"}
+            ]
+        }
+    })
+})

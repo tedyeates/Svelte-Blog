@@ -35,3 +35,16 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('login', () => { 
+    cy.request('POST', Cypress.env('apiLoginUrl'), {
+        'username': Cypress.env('username'),
+        'password': Cypress.env('password'),
+    })
+})
+
+declare namespace Cypress {
+    interface Chainable {
+        login(): Chainable<void>
+    }
+}

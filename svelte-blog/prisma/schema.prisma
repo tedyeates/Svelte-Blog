@@ -1,10 +1,69 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+    provider = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+    provider = "mysql"
+    url = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
+
+
+model Category { 
+    id      Int     @id @default(autoincrement())
+    name    String  @unique
+    posts   Post[]
+}
+
+model Author { 
+    id          Int     @id @default(autoincrement())
+    name        String
+    posts       Post[]
+    comments    Comment[]
+}
+
+
+model Post { 
+    id              Int         @id @default(autoincrement())
+    title           String
+    body            String
+    headImageURL    String
+    categories      Category[]
+    badges          Badge[]
+    date            DateTime    @default(now())
+    views           Int         @default(0)
+    author          Author      @relation(fields: [authorId], references: [id])
+    authorId        Int
+    comments        Comment[]
+
+    @@index([authorId])
+}
+
+model Badge {
+    id      Int     @id @default(autoincrement())
+    name    String  @unique
+    icon    String
+    posts   Post[]
+}
+
+model Comment { 
+    id          Int         @id @default(autoincrement())
+    post        Post        @relation(fields: [postId], references: [id])
+    postId      Int
+    author      Author      @relation(fields: [authorId], references: [id])
+    authorId    Int
+    likes       Int         @default(0)
+    dislikes    Int         @default(0)
+    parentId    Int?
+    parent      Comment?    @relation("CommentReply", fields: [parentId], references: [id], onDelete:NoAction, onUpdate:NoAction)
+    replies     Comment[]   @relation("CommentReply")
+
+    @@index([postId])
+    @@index([authorId])
+    @@index([parentId])
+}
+
+
+
+
