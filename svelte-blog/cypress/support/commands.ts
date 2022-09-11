@@ -43,8 +43,87 @@ Cypress.Commands.add('login', () => {
     })
 })
 
+function dateToString(date: Date):string {
+    return `${date.getFullYear}-${date.getMonth()}-${date.getDate()}`
+} 
+
+Cypress.Commands.add('createPosts', () => { 
+    cy.request({
+        method: 'POST',
+        url: `${Cypress.env('apiTestBase')}/author/create`,
+        body: {
+            data: [
+                {name: 'Ted Yeates'},
+                {name: 'Jamie Slome'},
+            ]
+        }
+    }).then(response => {
+        let ted:number = -1, jamie:number = -1
+
+        response.body.data.forEach((author) => {
+            if(author.name == 'Ted Yeates')
+                ted = author.id
+            if(author.name == 'Jamie Slome')
+                jamie = author.id
+        })
+
+        let today = new Date()
+        let twoMonth = new Date()
+        let lastWeek = new Date()
+        let yesterday = new Date()
+
+        twoMonth.setMonth(today.getMonth() - 2)
+        lastWeek.setDate(today.getDate() - 7)
+        yesterday.setDate(today.getDate() - 1)
+        
+
+        
+        cy.request({
+            method: 'POST',
+            url: `${Cypress.env('apiTestBase')}/post/create`,
+            body: {
+                "data": [
+                    {
+                        "title": "hottest",
+                        "body": "test",
+                        "headImageURL": "image",
+                        "date": dateToString(lastWeek),
+                        "views": 100,
+                        "authorId": ted
+                    },
+                    {
+                        "title": "latest 2",
+                        "body": "test",
+                        "headImageURL": "image",
+                        "date": dateToString(lastWeek),
+                        "views": 20,
+                        "authorId": ted
+                    },
+                    {
+                        "title": "latest 1",
+                        "body": "test",
+                        "headImageURL": "image",
+                        "date": dateToString(yesterday),
+                        "views": 30,
+                        "authorId": jamie
+                    },
+                    {
+                        "title": "cold",
+                        "body": "test",
+                        "headImageURL": "image",
+                        "date": dateToString(twoMonth),
+                        "views": 200,
+                        "authorId": jamie
+                    },
+                ]
+            }
+        })
+    })
+})
+
 declare namespace Cypress {
     interface Chainable {
         login(): Chainable<void>
+        createPosts(): Chainable<void>
     }
 }

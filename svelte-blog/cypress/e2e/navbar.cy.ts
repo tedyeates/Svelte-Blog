@@ -2,7 +2,7 @@
 
 
 
-describe('navigation allows user to filter posts', () => {
+describe('navigation allows user to navigate to each page successfully', () => {
 
     context('test from homepage', () => {
         beforeEach(() => {
@@ -10,7 +10,7 @@ describe('navigation allows user to filter posts', () => {
         })
     
         it('all categories display in navbar', () => {
-            cy.request(Cypress.env('categoryGetAllUrl')).then(response => {
+            cy.request(`${Cypress.env('apiTestBase')}/category`).then(response => {
                 let categories = response.body.data
                 // Check all categories in database are displayed
                 cy.get('nav a[href*="?category"]').each((category, index) => {

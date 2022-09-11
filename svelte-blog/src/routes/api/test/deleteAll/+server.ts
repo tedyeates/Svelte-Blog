@@ -11,5 +11,5 @@ export async function DELETE() {
         throw error(401, `Failed to delete all data with ${err.message}`)
     }
 
-    return json({status: 200, message: `successfully deleted all objects`, data: response})
+    return json({status: 200, message: `successfully deleted all objects`})
 }

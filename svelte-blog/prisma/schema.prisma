@@ -1,4 +1,4 @@
-generator client {
+generator client {     
     provider = "prisma-client-js"
     previewFeatures = ["referentialIntegrity"]
 }
@@ -16,18 +16,21 @@ model Category {
     posts   Post[]
 }
 
+
 model Author { 
     id          Int     @id @default(autoincrement())
-    name        String
+    name        String  @unique
     posts       Post[]
     comments    Comment[]
+
+    @@index([name])
 }
 
 
 model Post { 
     id              Int         @id @default(autoincrement())
     title           String
-    body            String
+    body            String      @db.Text
     headImageURL    String
     categories      Category[]
     badges          Badge[]
@@ -49,6 +52,7 @@ model Badge {
 
 model Comment { 
     id          Int         @id @default(autoincrement())
+    comment     String      @db.Text
     post        Post        @relation(fields: [postId], references: [id])
     postId      Int
     author      Author      @relation(fields: [authorId], references: [id])
@@ -63,7 +67,5 @@ model Comment {
     @@index([authorId])
     @@index([parentId])
 }
-
-
 
 
