@@ -1,13 +1,13 @@
 <script lang="ts">
 	/** @type {import('./$types').PageData} */
-	export let data: {categories: Array<Category>}
+	export let data: {data: Array<Category>}
 	
 	import type { Category } from '@prisma/client'
 	import Header from '$lib/header/Header.svelte'
 	import '../app.sass'
 </script>
 
-<Header categories={data.categories} />
+<Header categories={data.data} />
 
 <main>
 	<slot />

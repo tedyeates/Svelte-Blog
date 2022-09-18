@@ -1,15 +1,8 @@
+import { getModel } from "$lib/api/get";
 import { findAllCategory } from "$lib/prisma";
-import { error } from "@sveltejs/kit";
+import type { Category } from "@prisma/client";
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load() {
-    
-    let response = null
-    try {
-        response = await findAllCategory()
-        return {categories: response}
-    }
-    catch (err: any) {
-        throw error(404, `Failed to retrieve categories with ${err.message}`)
-    }
+/** @type {import('./$types').LayoutLoad} */
+export function load() {
+    return getModel<Category>(findAllCategory)
 }

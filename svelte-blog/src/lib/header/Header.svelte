@@ -7,10 +7,10 @@
 
 <header>
 	<nav>
-		<div class="brand" class:active={$page.url.pathname === '/'}>
+		<div aria-label="navigate home" class="brand" class:active={$page.url.pathname === '/'}>
 			<a sveltekit:prefetch href="/">Svelte Blog</a>
 		</div>
-		<ul>
+		<ul aria-label="categories">
 			{#each categories as {id, name}}
 			<li class:active={$page.url.pathname === `/list?category=${id}`}>
 				<a sveltekit:prefetch href={`/list?category=${id}`}>{name}</a>
